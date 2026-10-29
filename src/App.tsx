@@ -33,7 +33,7 @@ function App() {
       <header className="border-b border-border">
         <div className="flex items-center justify-between px-md py-sm max-w-5xl mx-auto">
           <span className="font-semibold">Meridian & Co.</span>
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-sm">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
               Shop
             </a>
