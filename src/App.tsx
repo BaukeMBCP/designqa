@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border">
-        <div className="flex items-center justify-between px-6 py-4 max-w-5xl mx-auto">
+        <div className="flex items-center justify-between px-md py-sm max-w-5xl mx-auto">
           <span className="font-semibold">Meridian & Co.</span>
           <nav className="flex items-center gap-4">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
@@ -45,7 +45,7 @@ function App() {
         </div>
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 items-center gap-lg px-6 py-xl max-w-5xl mx-auto">
+      <section className="grid grid-cols-1 md:grid-cols-2 items-center gap-lg px-md py-xl max-w-5xl mx-auto">
         <div className="flex flex-col items-start text-left gap-md">
           <Badge variant="secondary">New: Fall collection</Badge>
           <h1 className="text-4xl font-bold tracking-tight">
@@ -73,7 +73,7 @@ function App() {
         </div>
       </section>
 
-      <section className="px-6 py-lg grid grid-cols-1 md:grid-cols-3 gap-md max-w-5xl mx-auto">
+      <section className="px-md py-lg grid grid-cols-1 md:grid-cols-3 gap-md max-w-5xl mx-auto">
         {categories.map((category) => (
           <Card key={category.title}>
             <CardHeader>
@@ -90,7 +90,7 @@ function App() {
         ))}
       </section>
 
-      <section className="flex flex-col items-center text-center px-6 py-xl gap-sm border-t border-border">
+      <section className="flex flex-col items-center text-center px-md py-xl gap-sm border-t border-border">
         <h2 className="text-2xl font-semibold">Ready to start shopping?</h2>
         <p className="text-muted-foreground max-w-96">
           Create an account for free shipping and order tracking.
@@ -107,7 +107,7 @@ function App() {
       </section>
 
       <footer className="border-t border-border">
-        <div className="px-6 py-md text-center text-sm text-muted-foreground max-w-5xl mx-auto">
+        <div className="px-md py-md text-center text-sm text-muted-foreground max-w-5xl mx-auto">
           © 2026 Meridian & Co.
         </div>
       </footer>
