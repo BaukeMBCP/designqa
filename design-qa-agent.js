@@ -115,10 +115,17 @@ of the manifest it references (e.g. "deprecatedVariants.ghost" or the
 exact rule string). If a hunk raises no issue, do not include a finding
 for it.
 
+Also provide a "summary": one or two sentences explaining why the diff
+passes or fails. On a fail, state how many violations were found and which
+manifest rules they break. On a pass, state what you checked (e.g. which
+components, variants, or rules the diff touched) and why none were broken,
+so a pass is never silent.
+
 Respond with ONLY valid JSON (no markdown fences, no prose outside the
 JSON) in exactly this shape:
 {
   "pass": true or false,
+  "summary": "...",
   "findings": [
     { "file": "...", "line": "...", "issue": "...", "reasoning": "..." }
   ]
@@ -146,7 +153,7 @@ async function checkDesignCompliance(diff, manifest) {
     },
     body: JSON.stringify({
       model: CLAUDE_MODEL,
-      max_tokens: 1024,
+      max_tokens: 4096,
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -157,6 +164,7 @@ async function checkDesignCompliance(diff, manifest) {
     console.error(`Anthropic API error (status ${response.status}):`, JSON.stringify(data, null, 2));
     return {
       pass: false,
+      summary: "The check could not run because the Anthropic API call failed.",
       findings: [{
         file: "-",
         line: "-",
@@ -173,12 +181,14 @@ async function checkDesignCompliance(diff, manifest) {
     const result = JSON.parse(cleaned);
     return {
       pass: result.pass === true,
+      summary: typeof result.summary === "string" ? result.summary : "",
       findings: Array.isArray(result.findings) ? result.findings : [],
     };
   } catch (err) {
     console.error("Failed to parse Claude's response as JSON:", text);
     return {
       pass: false,
+      summary: "The check could not complete because the model response was not valid JSON.",
       findings: [{ file: "-", line: "-", issue: "Agent response could not be parsed", reasoning: text.slice(0, 300) }],
     };
   }
@@ -193,9 +203,10 @@ async function postResult(result) {
   const prNumber = process.env.PR_NUMBER;
   const token = process.env.GITHUB_TOKEN;
 
+  const summary = result.summary ? `\n\n**Why:** ${result.summary}` : "";
   const body = result.pass
-    ? `Design QA agent: no issues found.`
-    : `Design QA agent found issues:\n\n${result.findings
+    ? `Design QA agent: PASS — no issues found.${summary}`
+    : `Design QA agent: FAIL — found issues.${summary}\n\n${result.findings
         .map((f) => `- **${f.file}:${f.line}** — ${f.issue}\n  ${f.reasoning}`)
         .join("\n")}`;
 
