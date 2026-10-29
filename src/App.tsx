@@ -37,7 +37,11 @@ function App() {
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
               Shop
             </a>
-            <Button variant="outline">Sign in</Button>
+            <Button
+              variant="ghost"
+            >
+              Sign in
+            </Button>
             <Button variant="outline" size="sm" aria-label="Cart">
               <ShoppingCart />
             </Button>
